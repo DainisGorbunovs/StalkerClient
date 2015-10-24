@@ -1,0 +1,28 @@
+{
+"friends": [
+  {
+    "name": "Hiro Nakamura",
+    "location":
+    {
+      "latitude": "52.4506473",
+      "longitude": "-1.932267"
+    }
+  },
+  {
+    "name": "Peter Petrelli",
+    "location":
+    {
+      "latitude": "52.448297",
+      "longitude": "-2.006391"
+    }
+  },
+  {
+    "name": "Ando Masahashi",
+    "location":
+    {
+      "latitude": "52.475535",
+      "longitude": "-1.885605"
+    }
+  }
+]
+}
