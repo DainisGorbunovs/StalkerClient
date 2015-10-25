@@ -35,6 +35,7 @@
     $scope.addMark = function() {
       if ($scope.name)
       {
+        setInterval(function(){ 
         if (navigator.geolocation)
           navigator.geolocation.getCurrentPosition(function(pos) {
             $http({
@@ -56,6 +57,7 @@
 		  title: "Your location"
 		});
           });
+        }, 3000);
       }
     };
   }]);
