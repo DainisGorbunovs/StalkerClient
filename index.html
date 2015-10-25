@@ -92,9 +92,9 @@
   function setMarkers(map) {
     for (var friend in friends) {
       markers.push(new google.maps.Marker({
-        position: {lat: Number(friends[buddy].Location.Latitude), lng: Number(friends[buddy].Location.Longitude)},
+        position: {lat: Number(friends[friend].Location.Latitude), lng: Number(friends[friend].Location.Longitude)},
         map: map,
-        title: friends[buddy].Name,
+        title: friends[friend].Name,
       }));
     }
   }
