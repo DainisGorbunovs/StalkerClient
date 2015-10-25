@@ -66,10 +66,8 @@
           $http.get('http://stalker-api.azurewebsites.net/' + $scope.group)
           .success(function(response) {$scope.friends = response; friends = response;});
           
-          clearMarkers(map);
-
           for (var marker in markers) {
-            marker.setMap(map);
+            marker.setMap(null);
           }
 
           markers = [];
@@ -97,13 +95,6 @@
         map: map,
         title: friends[friend].Name,
       }));
-    }
-  }
-
-  // Clears all friends on the map.
-  function clearMarkers() {
-    for (var marker in markers) {
-      marker.setMap(null);
     }
   }
 
