@@ -63,6 +63,10 @@
         setInterval(function(){
           $http.get('http://stalker-api.azurewebsites.net/' + $scope.group)
           .success(function(response) {$scope.friends = response; friends = response;});
+          for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+          }
+          markers = [];
           setMarkers(map);
         }, 2000);
       }
@@ -71,6 +75,7 @@
 
   // Initialize a Google map
   var map;
+  var markers = [];
   function initMap(pos) {
     console.log(pos.coords.latitude + ", " + pos.coords.longitude);
     map = new google.maps.Map(document.getElementById('map'), {
@@ -84,11 +89,11 @@
     function setMarkers(map) {
       for (var buddy in friends)
       {
-        var marker = new google.maps.Marker({
+          markers.push(new google.maps.Marker({
           position: {lat: Number(friends[buddy].Location.Latitude), lng: Number(friends[buddy].Location.Longitude)},
           map: map,
           title: friends[buddy].Name,
-        });
+        }));
       }
     }
 
