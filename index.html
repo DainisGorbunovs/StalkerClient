@@ -53,21 +53,23 @@
               },
               headers: {'Content-Type': 'application/json'}
              });
-		var marker = new google.maps.Marker({
-		  position: {lat: Number(pos.coords.latitude), lng: Number(pos.coords.longitude)},
-		  map: map,
-		  title: "Your location"
-		});
-          });
-        }, 3000);
+        
+            new google.maps.Marker({
+              position: {lat: Number(pos.coords.latitude), lng: Number(pos.coords.longitude)},
+              map: map,
+              title: "Your location"
+            });
+        });
+    }, 3000);
+
         setInterval(function(){
           $http.get('http://stalker-api.azurewebsites.net/' + $scope.group)
           .success(function(response) {$scope.friends = response; friends = response;});
           
           clearMarkers(map);
 
-          for (var i = 0; i < markers.length; i++) {
-            markers[i].setMap(map);
+          for (var marker in markers) {
+            marker.setMap(map);
           }
 
           markers = [];
@@ -99,16 +101,10 @@
   }
 
   // Clears all friends on the map.
-  function clearMarkers(map) {
-    if (!map) {
-      return;
-    }
-
-    for (var marker in map.markers) {
+  function clearMarkers() {
+    for (var marker in markers) {
       marker.setMap(null);
     }
-
-    map.markers = new Array();
   }
 
   // Show map
