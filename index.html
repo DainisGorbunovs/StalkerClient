@@ -63,9 +63,13 @@
         setInterval(function(){
           $http.get('http://stalker-api.azurewebsites.net/' + $scope.group)
           .success(function(response) {$scope.friends = response; friends = response;});
+          
+          //clearMarkers(map);
+
           for (var i = 0; i < markers.length; i++) {
             markers[i].setMap(map);
           }
+
           markers = [];
           setMarkers(map);
         }, 2000);
@@ -73,7 +77,7 @@
     };
   }]);
 
-  // Initialize a Google map
+  // Initializes a Google map.
   var map;
   var markers = [];
   function initMap(pos) {
@@ -82,28 +86,39 @@
       center: {lat: pos.coords.latitude, lng: pos.coords.longitude},
       zoom: 12
     });
-    //setMarkers(map);
   }
 
-    // Mark friends in the map
-    function setMarkers(map) {
-      for (var buddy in friends)
-      {
-          markers.push(new google.maps.Marker({
-          position: {lat: Number(friends[buddy].Location.Latitude), lng: Number(friends[buddy].Location.Longitude)},
-          map: map,
-          title: friends[buddy].Name,
-        }));
-      }
+  // Marks friends on the map.
+  function setMarkers(map) {
+    for (var friend in friends) {
+      markers.push(new google.maps.Marker({
+        position: {lat: Number(friends[buddy].Location.Latitude), lng: Number(friends[buddy].Location.Longitude)},
+        map: map,
+        title: friends[buddy].Name,
+      }));
     }
+  }
+
+  // Clears all friends on the map.
+  function clearMarkers(map) {
+    if (!map) {
+      return;
+    }
+
+    for (var marker in map.markers) {
+      marker.setMap(null);
+    }
+
+    map.markers = new Array();
+  }
 
   // Show map
   if (navigator.geolocation)
     navigator.geolocation.getCurrentPosition(initMap);
 </script>
 <form ng-submit="addMark()" ng-controller="ExampleController">
-  <p>Your name : <input type="text" ng-model="name"></p>
-  <p>Your group : <input type="text" ng-model="group"></p>
+  <p>Name: <input type="text" ng-model="name"></p>
+  <p>Group: <input type="text" ng-model="group"></p>
   <input type="submit" id="submit" value="Submit" />
 
 </form>
