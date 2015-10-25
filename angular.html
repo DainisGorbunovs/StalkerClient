@@ -21,32 +21,34 @@
   var app = angular.module('submitExample', []);
 
     // Get the friends and their locations from a JSON
-    var userJSON = "http://stalker-api.azurewebsites.net/andrei";
+//    var userJSON = "http://stalker-api.azurewebsites.net/" + group;
     var friends;
-    app.controller('customersCtrl', function($scope, $http) {
+/*    app.controller('customersCtrl', function($scope, $http) {
         $http.get(userJSON)
         .success(function(response) {$scope.friends = response; friends = response;});
-    });
+    });*/
 
   // Post current user data to the Stalker API
   app.controller('ExampleController', ['$scope', '$http', function($scope, $http) {
-    $scope.list = [];
     $scope.name = '';
+    $scope.group = '';
     $scope.addMark = function() {
-      if ($scope.name)
+      if ($scope.name && $scope.group)
       {
+        $http.get('http://stalker-api.azurewebsites.net/' + $scope.group)
+        .success(function(response) {$scope.friends = response; friends = response;});
         setInterval(function(){ 
         if (navigator.geolocation)
           navigator.geolocation.getCurrentPosition(function(pos) {
             $http({
-              url: 'http://stalker-api.azurewebsites.net/andrei',
+              url: 'http://stalker-api.azurewebsites.net/' + $scope.group,
               method: "POST",
               data: {
-                "name": $scope.name,
-                "location":
+                "Name": $scope.name,
+                "Location":
                 {
-                  "latitude": pos.coords.latitude,
-                  "longitude": pos.coords.longitude
+                  "Latitude": pos.coords.latitude,
+                  "Longitude": pos.coords.longitude
                 }
               },
               headers: {'Content-Type': 'application/json'}
@@ -58,6 +60,11 @@
 		});
           });
         }, 3000);
+        setInterval(function(){
+          $http.get('http://stalker-api.azurewebsites.net/' + $scope.group)
+          .success(function(response) {$scope.friends = response; friends = response;});
+          setMarkers(map);
+        }, 2000);
       }
     };
   }]);
@@ -70,7 +77,7 @@
       center: {lat: pos.coords.latitude, lng: pos.coords.longitude},
       zoom: 12
     });
-    setMarkers(map);
+    //setMarkers(map);
   }
 
     // Mark friends in the map
@@ -78,9 +85,9 @@
       for (var buddy in friends)
       {
         var marker = new google.maps.Marker({
-          position: {lat: Number(friends[buddy].location.latitude), lng: Number(friends[buddy].location.longitude)},
+          position: {lat: Number(friends[buddy].Location.Latitude), lng: Number(friends[buddy].Location.Longitude)},
           map: map,
-          title: friends[buddy].name,
+          title: friends[buddy].Name,
         });
       }
     }
@@ -91,6 +98,7 @@
 </script>
 <form ng-submit="addMark()" ng-controller="ExampleController">
   <p>Your name : <input type="text" ng-model="name"></p>
+  <p>Your group : <input type="text" ng-model="group"></p>
   <input type="submit" id="submit" value="Submit" />
 
 </form>
