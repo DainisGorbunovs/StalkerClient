@@ -32,9 +32,9 @@
     $scope.name = 'Mihai';
     $scope.addMark = function() {
       $http({
-              url: 'http://stalker-api.azurewebsites.net/andre',
+              url: 'http://stalker-api.azurewebsites.net/andrei',
               method: "POST",
-              data: {'name': 'names'},
+              data: data,
               headers: {'Content-Type': 'application/json'}
             });
       };
