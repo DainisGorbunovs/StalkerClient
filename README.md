@@ -1,2 +1,2 @@
 # StalkerClient
-Client for the Stalker (*code name*) application.
+Client for the Stalker application.
